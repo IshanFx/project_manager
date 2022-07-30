@@ -13,20 +13,20 @@ export const projects :Project[] = [
             "children": [
               {
                 "id": 3,
-                "name": "Task 3.1",
+                "name": "Task 1.1",
                 "description": "Task 1.1 description",
                 "status": "in-progress"
               },
               {
                 "id": 6,
-                "name": "Task 6.1",
-                "description": "Task 1.1 description",
+                "name": "Task 1.2",
+                "description": "Task 1.2 description",
                 "status": "in-progress",
                 "children":[
                     {
                         "id": 8,
-                        "name": "Task 8.1",
-                        "description": "Task 8.1 description",
+                        "name": "Task 1.2.1",
+                        "description": "Task 1.2.1 description",
                         "status": "in-progress"
                     }
                 ]
@@ -48,13 +48,13 @@ export const projects :Project[] = [
         "tasks": [
           {
             "id":4,
-            "name": "Task 4",
+            "name": "Task 1",
             "status": "active",
-            "description": "Task 4 description",
+            "description": "Task 1 description",
             "children": [
               {
                 "id": 6,
-                "name": "Task 4.1",
+                "name": "Task 1.1",
                 "description": "Task 1.1 description",
                 "status": "in-progress"
               }
@@ -62,8 +62,8 @@ export const projects :Project[] = [
           },
           {
             "id": 5,
-            "name": "Task 5",
-            "description": "Task 5 description",
+            "name": "Task 2",
+            "description": "Task 2 description",
             "status": "completed",
             "children": []
           }

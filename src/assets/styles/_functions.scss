@@ -1,0 +1,7 @@
+
+
+@mixin box-shadow($horizontal-length,$vertical-length,$blur-radius,$spread-radius,$color){
+    -webkit-box-shadow: $horizontal-length $vertical-length $blur-radius $spread-radius $color;
+    -moz-box-shadow: $horizontal-length $vertical-length $blur-radius $spread-radius $color;
+    box-shadow: $horizontal-length $vertical-length $blur-radius $spread-radius $color;
+}

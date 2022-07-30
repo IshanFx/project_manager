@@ -1,0 +1,31 @@
+.vh {
+
+    &-search-container {
+      display: flex;
+      justify-content: end;
+      width: 100%;
+    }
+  
+    &-search {
+      display: flex;
+      align-items: center;
+      border: 1px solid #e3e3e3;
+      border-radius: 50px;
+  
+      fa-icon {
+        padding: 9px 15px;
+        margin-right: 5px;
+      }
+  
+      input {
+        border: 0px;
+        height: 40px;
+        width: 100%;
+        border-radius: 50px;
+      }
+  
+      input:focus {
+        outline: none;
+      }
+    }
+  }

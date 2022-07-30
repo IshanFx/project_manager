@@ -1,62 +1,88 @@
+<div class="row justify-content-md-center vl-project-master">
+    <div class="col-6 col-offset-5 vl-project-main-container">
+        <div class="vl-project-search-area">
+            <app-search (searchWord)="triggerSearch($event)"></app-search>
+            <button class="btn btn-primary" 
+            [disabled]="searchWord.length > 0"
+            (click)="showAddNewProjectDialog()" >Add a Project  <fa-icon [icon]="faAdd"></fa-icon></button>
+        </div>
+        <div class="vl-project-container">
+            <div *ngIf="searchWord.length > 0 && currentProjectList.length == 0" class="alert alert-info" role="alert">
+                Cannot find any matching record
+              </div>
+            <div *ngFor="let project of currentProjectList;let i = index" (click)="project.isCollapsed = !project.isCollapsed" >
+                <div class="vl-project-project-list-item" style="display: flex;" >
+                    <div><fa-icon *ngIf="project.isCollapsed" [icon]="faFolder"></fa-icon> <fa-icon *ngIf="!project.isCollapsed" [icon]="faFolderOpen"></fa-icon> {{project.name}} </div>
+                    <div class="vl-project-project-list-item-actions" *ngIf="searchWord.length == 0">
+                        <div title="Edit project" class="vl-project-action-edit"  (click)="showProjectEditDialog(project);$event.stopPropagation()">
+                            <fa-icon  [icon]="faEdit"></fa-icon>
+                        </div>
+                        <div title="Delete project" class="vl-project-action-delete" (click)="deleteAProject(project);$event.stopPropagation()">
+                            <fa-icon  [icon]="faTrashAlt"></fa-icon>
+                        </div>
+                        <div title="Add task under this project" class="vl-project-action-add" (click)="showAddProjectSubTask(project);$event.stopPropagation()">
+                            <fa-icon  [icon]="faAdd"></fa-icon>
+                        </div>
+                    </div>
 
-<div class="row">
-    <div class="col-5">
-        <div *ngFor="let project of currentProjectList">
-            <p (click)="projectSelected(project)">{{project.name}}</p>
-            <div *ngFor="let task of project.tasks">
-                <p>{{task.name}}</p>
-                <ng-container *ngTemplateOutlet="itemList; context: {task:task.children}">
-
-                </ng-container>
+                </div>
+                <div id="proj_{{project.id}}" class="vl-project-task-list-main-container" [ngStyle]="{'display':project.isCollapsed ? 'none' : 'block'}">
+                    <div *ngFor="let task of project.tasks;let i = index">
+                        <div style="display:flex;padding-left:20px;" class="vl-project-task-list-item" (click)="$event.stopPropagation()">
+                            <div><fa-icon [icon]="faTasks" style="margin-right:5px;"></fa-icon> {{task.name}}</div>
+                            <div class="vl-project-task-list-item-actions" *ngIf="searchWord.length == 0">
+                                <div title="Edit task details" class="vl-project-action-edit" (click)="showTaskEditDialog(task,'project');$event.stopPropagation()">
+                                    <fa-icon  [icon]="faEdit"></fa-icon>
+                                </div>
+                                <div title="Delete task" class="vl-project-action-delete" (click)="deleteParentTask(project,task,i);$event.stopPropagation()">
+                                    <fa-icon  [icon]="faTrashAlt"></fa-icon>
+                                </div>
+                                <div title="Add task under this task" class="vl-project-action-add" (click)="showAddTaskSubTask(task);$event.stopPropagation()">
+                                    <fa-icon  [icon]="faAdd"></fa-icon>
+                                </div>
+                            </div>
+    
+                        </div>
+                        <ng-container *ngTemplateOutlet="itemList; context: {task:task}">
+    
+                        </ng-container>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>
 
     <ng-template #itemList let-task="task">
-        <div *ngFor="let childTask of task">
-            <div (click)="taskSelected(childTask)">{{childTask.name}}</div>
-            <ng-container *ngTemplateOutlet="itemList; context: {task:childTask.children}">
+        <div *ngFor="let childTask of task.children;let i = index" class="vl-project-task-list-item-container"
+            style="padding-left:25px;">
+            <div class="vl-project-task-list-item" (click)="$event.stopPropagation()">
+                <div><fa-icon [icon]="faTasks" style="margin-right:5px;"></fa-icon>{{childTask.name}}</div>
+                <div class="vl-project-task-list-item-actions" *ngIf="searchWord.length == 0">
+                    <div title="Edit task details" class="vl-project-action-edit"  (click)="showTaskEditDialog(childTask,'sub');$event.stopPropagation()">
+                        <fa-icon  [icon]="faEdit"></fa-icon>
+                    </div>
+                    <div title="Delete task" class="vl-project-action-delete" (click)="deleteSubTask(task,childTask,i);$event.stopPropagation()">
+                        <fa-icon  [icon]="faTrashAlt"></fa-icon>
+                    </div>
+                    <div title="Add task under this task"  class="vl-project-action-add" (click)="showAddTaskSubTask(childTask);$event.stopPropagation()">
+                        <fa-icon  [icon]="faAdd"></fa-icon>
+                    </div>
+                </div>
+            </div>
+            <ng-container *ngTemplateOutlet="itemList; context: {task:childTask}">
 
             </ng-container>
         </div>
     </ng-template>
-    
-    <div class="col-6">
-        <div *ngIf="selectedView == 'project'">
-            <form [formGroup]="projectForm" (ngSubmit)="updateAProject()">
-                <div class="mb-3">
-                    <label for="projectName" class="form-label">Project Name</label>
-                    <input id="projectName" class="form-control" formControlName="name"/>
-                    <span *ngIf="projectForm.get('name')?.errors?.['required']"></span>
-                </div>
-               
-                <button type="submit" class="btn btn-primary">Save Project</button>
-            </form>
-        </div>
-        <div *ngIf="selectedView == 'task'">
-            <form [formGroup]="taskForm" (ngSubmit)="updateATask()">
-                <div class="mb-3">
-                    <label for="taskName" class="form-label">Name</label>
-                    <input id="taskName" class="form-control" formControlName="name"/>
-                    <span *ngIf="projectForm.get('name')?.errors?.['required']"></span>
-                </div>
-                <div class="mb-3">
-                    <label for="taskDescription" class="form-label">Description</label>
-                    <input id="taskDescription" class="form-control" formControlName="description"/>
-                    <span *ngIf="projectForm.get('description')?.errors?.['required']"></span>
-                </div>
-                <div class="mb-3">
-                    <label for="taskStatus" class="form-label">Status</label>
-                    <select class="form-select" aria-label="Default select example" formControlName="status">
-                        <option selected>--select status--</option>
-                        <option value="active">Active</option>
-                        <option value="completed">Completed</option>
-                        <option value="in-progress">In-Progress</option>
-                      </select>
-                    <span *ngIf="projectForm.get('status')?.errors?.['required']"></span>
-                </div>
-                <button type="submit" class="btn btn-primary">Save Task</button>
-            </form>
-        </div>
-    </div>
+    <app-project-handle-dialog *ngIf="selectedView == tempViewType.Project"
+        [action]="dialogActionType"
+        [project]="selectedProject"
+        (closeModalDialog)="handleProjectDialogAction($event)"> </app-project-handle-dialog>
+    <app-task-handle-dialog 
+        *ngIf="selectedView == tempViewType.Task" 
+        [action]="dialogActionType"
+        [task]="selectedTask"
+        (closeModalDialog)="handleTaskDialogAction($event)"></app-task-handle-dialog>
 </div>

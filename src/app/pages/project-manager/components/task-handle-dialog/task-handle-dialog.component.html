@@ -1,0 +1,36 @@
+<div class="modal show" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Task {{action | titlecase}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeDialog()"></button>
+        </div>
+        <div class="modal-body">
+            <div>
+                <form [formGroup]="taskForm" (ngSubmit)="proceedTaskAction()">
+                    <div class="mb-3">
+                        <label for="taskName" class="form-label">Name</label>
+                        <input id="taskName" class="form-control" formControlName="name" />
+                        <span style="color: red;" *ngIf="taskForm.get('name')?.dirty && taskForm.get('name')?.touched && taskForm.get('name')?.errors?.['required']">Task name is required</span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="taskDescription" class="form-label">Description</label>
+                        <input id="taskDescription" class="form-control" formControlName="description" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="taskStatus" class="form-label">Status</label>
+                        <select class="form-select" aria-label="Default select example" formControlName="status">
+                            <option selected>--select status--</option>
+                            <option value="active">Active</option>
+                            <option value="completed">Completed</option>
+                            <option value="in-progress">In-Progress</option>
+                        </select>
+                        <span style="color: red;" *ngIf="taskForm.get('status')?.dirty && taskForm.get('status')?.touched && taskForm.get('status')?.errors?.['required']">Status required</span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">{{action | titlecase}} Task</button>
+                </form>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>

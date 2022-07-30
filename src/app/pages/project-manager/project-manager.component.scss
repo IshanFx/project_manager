@@ -1,0 +1,114 @@
+@import 'colors';
+@import 'values';
+@import 'functions';
+
+.vl-project-main-container{
+    margin-top: 20px;
+    padding: $card-padding;
+    border-radius: $card-border-radius;
+    @include box-shadow(0, 0, 10px, 15px, $light-blue-1);
+}
+
+.vl-project{
+    &-container{
+        max-height: 80vh;
+        min-height: 80vh;
+        overflow-y: auto;
+        margin-top: 20px;
+    }
+
+    &-search-area{
+        display: flex;
+        height: auto;
+        justify-content: space-between;
+    }
+
+    &-action-add,&-action-edit,&-action-delete{
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: -5px;
+    }
+
+    &-action-add{
+        color: $green-1;
+    }
+
+    &-action-add:hover{
+        background-color: $light-green-1;
+        border-radius: 50px;
+    }
+
+    &-action-edit{
+        color: $blue-1;
+    }
+
+    &-action-edit:hover{
+        background-color: $light-blue-2;
+        border-radius: 50px;
+    }
+
+    &-action-delete{
+        color: $red-1;
+    }
+
+    &-action-delete:hover{
+        background-color: $light-red-1;
+        border-radius: 50px;
+    }
+
+    &-project-list-item-actions{
+        display: none;
+        
+    }
+
+    &-task-list-item-actions{
+        display: none;
+    }
+
+    &-project-list-item-actions span , &-task-list-item-actions span{
+        margin-left: 5px;
+    }
+
+    &-project-list-item:hover &-project-list-item-actions{
+        display: flex;
+        cursor: pointer;
+    }
+
+    &-task-list-item:hover &-task-list-item-actions{
+        display: flex;
+        cursor: pointer;
+    }
+
+    &-project-list-item{
+        width: 100%;
+        padding: 15px 20px;
+        background-color: #e7f4ff;
+        display: flex;
+        border:1px solid #c2dbff;
+        font-weight: 500;
+        height: 60px;
+        align-items: center;
+    }
+
+    &-task-list-item-container{
+        width: 100%;
+        padding: 0px 0px;
+    }
+
+    &-task-list-item{
+        width: 100%;
+        padding: 15px 20px;
+        border-radius: $border-radius;
+        display: flex;
+        font-weight: 400;
+        height: 60px;
+        align-items: center;
+    }
+
+    &-task-list-main-container{
+        background: #f1f1f1a1;
+    }
+}

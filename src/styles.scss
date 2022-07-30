@@ -1,2 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'bootstrap/dist/css/bootstrap.css';
+
+.modal.show {
+    display: block;
+    background: #c7c7c7b1;
+  }
+  
+  .modal {
+    z-index: 10000;
+  }
+  
+  .modal-backdrop.show {
+    opacity: 0.5;
+  }
+  
+  .cm-image-dialog{
+    &-body{
+      padding: 0px;
+    }
+  }
+  

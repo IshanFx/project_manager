@@ -1,0 +1,23 @@
+<div class="modal show" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Project {{action | titlecase}} </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeDialog()"></button>
+        </div>
+        <div class="modal-body">
+            <div>
+                <form [formGroup]="projectForm" (ngSubmit)="proceedProjectAction()">
+                    <div class="mb-3">
+                        <label for="projectName" class="form-label">Project Name</label>
+                        <input id="projectName" class="form-control" formControlName="name" required/>
+                        <span style="color:red;" *ngIf="projectForm.get('name')?.dirty && projectForm.get('name')?.touched && projectForm.get('name')?.errors?.['required']">Please specify project name</span>
+                    </div>
+    
+                    <button type="submit" class="btn btn-primary">{{action | titlecase}} Project</button>
+                </form>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
