@@ -1,0 +1,62 @@
+
+<div class="row">
+    <div class="col-5">
+        <div *ngFor="let project of currentProjectList">
+            <p (click)="projectSelected(project)">{{project.name}}</p>
+            <div *ngFor="let task of project.tasks">
+                <p>{{task.name}}</p>
+                <ng-container *ngTemplateOutlet="itemList; context: {task:task.children}">
+
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #itemList let-task="task">
+        <div *ngFor="let childTask of task">
+            <div (click)="taskSelected(childTask)">{{childTask.name}}</div>
+            <ng-container *ngTemplateOutlet="itemList; context: {task:childTask.children}">
+
+            </ng-container>
+        </div>
+    </ng-template>
+    
+    <div class="col-6">
+        <div *ngIf="selectedView == 'project'">
+            <form [formGroup]="projectForm" (ngSubmit)="updateAProject()">
+                <div class="mb-3">
+                    <label for="projectName" class="form-label">Project Name</label>
+                    <input id="projectName" class="form-control" formControlName="name"/>
+                    <span *ngIf="projectForm.get('name')?.errors?.['required']"></span>
+                </div>
+               
+                <button type="submit" class="btn btn-primary">Save Project</button>
+            </form>
+        </div>
+        <div *ngIf="selectedView == 'task'">
+            <form [formGroup]="taskForm" (ngSubmit)="updateATask()">
+                <div class="mb-3">
+                    <label for="taskName" class="form-label">Name</label>
+                    <input id="taskName" class="form-control" formControlName="name"/>
+                    <span *ngIf="projectForm.get('name')?.errors?.['required']"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="taskDescription" class="form-label">Description</label>
+                    <input id="taskDescription" class="form-control" formControlName="description"/>
+                    <span *ngIf="projectForm.get('description')?.errors?.['required']"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="taskStatus" class="form-label">Status</label>
+                    <select class="form-select" aria-label="Default select example" formControlName="status">
+                        <option selected>--select status--</option>
+                        <option value="active">Active</option>
+                        <option value="completed">Completed</option>
+                        <option value="in-progress">In-Progress</option>
+                      </select>
+                    <span *ngIf="projectForm.get('status')?.errors?.['required']"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Task</button>
+            </form>
+        </div>
+    </div>
+</div>
