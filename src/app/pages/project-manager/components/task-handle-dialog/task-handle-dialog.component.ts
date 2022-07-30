@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, FormGroup, FormControl } from '@angular/forms';
 
 import { Action } from 'src/app/enum/Actions';
 import { ProjectTask } from 'src/app/model/ProjectTask';
@@ -16,12 +16,11 @@ export class TaskHandleDialogComponent implements OnInit {
 
   @Output() closeModalDialog = new EventEmitter();
 
-  taskForm:UntypedFormGroup = new UntypedFormGroup({
-    name: new UntypedFormControl('',Validators.required),
-    status: new UntypedFormControl('',Validators.required),
-    description: new UntypedFormControl('')
+  taskForm:FormGroup = new UntypedFormGroup({
+    name: new FormControl('',Validators.required),
+    status: new FormControl('',Validators.required),
+    description: new FormControl('')
   })
-
 
   constructor(private element:ElementRef) { }
 

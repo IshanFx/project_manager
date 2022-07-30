@@ -1,9 +1,8 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { Action } from 'src/app/enum/Actions';
 import { Project } from 'src/app/model/Project';
-
 
 @Component({
   selector: 'app-project-handle-dialog',
@@ -12,15 +11,15 @@ import { Project } from 'src/app/model/Project';
 })
 export class ProjectHandleDialogComponent implements OnInit {
 
-  
   @Input() project:Project | undefined;
   @Input() action: Action | undefined;
+
   @Output() closeModalDialog = new EventEmitter();
   
   constructor(private element:ElementRef) { }
 
-  projectForm:UntypedFormGroup = new UntypedFormGroup({
-    name: new UntypedFormControl('',Validators.required)
+  projectForm:FormGroup = new UntypedFormGroup({
+    name: new FormControl('',Validators.required)
   })
   
   ngOnInit(): void {

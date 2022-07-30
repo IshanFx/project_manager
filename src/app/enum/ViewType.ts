@@ -1,4 +1,5 @@
 export enum ViewType{
     Project = "project",
-    Task = "task"
+    Task = "task",
+    None = "none"
 }

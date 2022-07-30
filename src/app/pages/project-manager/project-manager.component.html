@@ -1,11 +1,13 @@
 <div class="row justify-content-md-center vl-project-master">
     <div class="col-6 col-offset-5 vl-project-main-container">
+
         <div class="vl-project-search-area">
             <app-search (searchWord)="triggerSearch($event)"></app-search>
-            <button class="btn btn-primary" 
+            <button class="btn btn-primary"
             [disabled]="searchWord.length > 0"
             (click)="showAddNewProjectDialog()" >Add a Project  <fa-icon [icon]="faAdd"></fa-icon></button>
         </div>
+
         <div class="vl-project-container">
             <div *ngIf="searchWord.length > 0 && currentProjectList.length == 0" class="alert alert-info" role="alert">
                 Cannot find any matching record
@@ -41,15 +43,15 @@
                                     <fa-icon  [icon]="faAdd"></fa-icon>
                                 </div>
                             </div>
-    
+
                         </div>
                         <ng-container *ngTemplateOutlet="itemList; context: {task:task}">
-    
+
                         </ng-container>
-                        
+
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -63,7 +65,7 @@
                     <div title="Edit task details" class="vl-project-action-edit"  (click)="showTaskEditDialog(childTask,'sub');$event.stopPropagation()">
                         <fa-icon  [icon]="faEdit"></fa-icon>
                     </div>
-                    <div title="Delete task" class="vl-project-action-delete" (click)="deleteSubTask(task,childTask,i);$event.stopPropagation()">
+                    <div title="Delete task" class="vl-project-action-delete" (click)="deleteSubTask(task,i);$event.stopPropagation()">
                         <fa-icon  [icon]="faTrashAlt"></fa-icon>
                     </div>
                     <div title="Add task under this task"  class="vl-project-action-add" (click)="showAddTaskSubTask(childTask);$event.stopPropagation()">
@@ -76,12 +78,12 @@
             </ng-container>
         </div>
     </ng-template>
-    <app-project-handle-dialog *ngIf="selectedView == tempViewType.Project"
+    <app-project-handle-dialog *ngIf="visibleDialogType == tempViewType.Project"
         [action]="dialogActionType"
         [project]="selectedProject"
         (closeModalDialog)="handleProjectDialogAction($event)"> </app-project-handle-dialog>
-    <app-task-handle-dialog 
-        *ngIf="selectedView == tempViewType.Task" 
+    <app-task-handle-dialog
+        *ngIf="visibleDialogType == tempViewType.Task"
         [action]="dialogActionType"
         [task]="selectedTask"
         (closeModalDialog)="handleTaskDialogAction($event)"></app-task-handle-dialog>
